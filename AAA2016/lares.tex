@@ -1,0 +1,333 @@
+% Instrucciones para la preparación y envío de trabajos de la Serie
+% Workshop de la Asociación Argentina de Astronomía.
+%
+% 2016
+%
+\documentclass[11pt,twoside
+%,draft%
+]{article}
+
+\usepackage{jae2016} % Estilo específico de esta reunión.
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{psfrag}
+\usepackage{amssymb}
+\usepackage[spanish,activeacute,english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc} % Computer Modern (CM) fonts
+\usepackage{ae,aecompl} % and: dvips -Pcmz -Pamz macros_aaa.dvi
+\usepackage{latexsym}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{wasysym}
+%%%                                                                   %%%%
+%%% PARA AGREGAR OTROS PAQUETES CONSULTE A LOS EDITORES.              %%%%
+%%%                                                                   %%%% 
+%%% NO SE PERMITE EL USO DE \newcommand, NI DEFINICIONES PARTICULARES %%%%
+%%% DE CADA AUTOR.                                                    %%%%  
+%%%                                                                   %%%%
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% SELECCIONE EL IDIOMA EN QUE SE ESCRIBE EL ARTÍCULO:              %%%%
+\myselectspanish
+%\myselectenglish
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vskip 1.0cm
+\markboth{Lares et al.}%
+{}
+
+\pagestyle{myheadings}
+
+\title{A formal approach to compute density profiles and CMD fitting in
+stellar associations}
+
+\author{M. Lares$^{1,2,3}$, L. Gramajo$^{1,3}$ \& B. S\'anchez$^{1,2}$}
+
+\affil{%
+   (1) Consejo Nacional de Investigaciones Cient\'ificas y T\'ecnicas
+   (CONICET)\\
+  (2) Instituto de Astronom\'ia Te\'orica y Experimental (IATE -
+  UNC/CONICET)\\
+  (3) Observatorio Astron\'omico de C\'ordoba, UNC}
+
+\begin{resumen}
+Un c\'umulo estelar se puede caracterizar por un conjunto de par\'ametros
+(distancia, enrojecimiento, edad y metalicidad) cuya estimaci\'on es
+fundamental para estudios sobre su formaci\'on y evoluci\'on.
+%
+El diagrama color-magnitud es el recurso fundamental para tales
+estimaciones, pero requiere de una cuidadosa limpieza de los campos
+para desafectar la contribuci\'on de estrellas de campo.
+%
+En general, para ello se discretizan arbitrariamente de los datos,
+ignorando las fuentes de error que estos procedimientos involucran y
+asignando probabilidades de pertenencia aleatoriamente.
+%
+Luego, el ajuste de las isocronas al conjunto de los
+puntos seleccionados en el diagrama se hace a ojo.  Este enfoque es
+por lo tanto subjetivo y no se condice con los principios de la
+ciencia reproducible.
+%
+Aqu\'i proponemos un enfoque formal para estimar el
+perfil de densidad proyectado, calcular la densidad de probabilidad
+en el diagrama color-magnitud y encontrar el modelo de
+isocrona m\'as adecuado.
+\end{resumen}
+
+\begin{abstract} 
+%   
+ A star cluster can be characterized by a set of fundamental
+ parameters (distance, reddening, age, and metallicity), whose
+ estimation is valuable for a variety of studies related to their
+ formation and evolution.  
+%
+ The main diagnostic tool to obtain them is the Color-Magnitude
+ Diagram (CMD), but a carefull field cleaning must be
+ performed previously to isolate the contribution of stars in the
+ clusters from stars in the background.  
+%
+ Several procedures have been proposed to reduce this contamination,
+ which implement binning
+ schemes to estimate membership probabilities.  
+%
+ However, the choice of the bin sizes is arbitrary, the
+ uncertainties in magnitudes and colours are usually not taken into
+ account, and the memberships are assigned informally on a star-by-star
+ basis.  
+%
+ Then, the fitting of isochrones to the scatter plot of selected stars
+ is made by eye.  This approach is therefore subjective and does not
+ complain with the principle of reproducible science.  
+%
+ Here we propose a formal approach to estimate the projected density
+ profile, to compute the statistical distribution in the CMD, and to
+ find the best fit isochrones to the CMD.
+%
+\end{abstract}
+
+
+
+\section{Estimating the projected radial density profile}
+
+The radial profile of a star cluster is characterized by a set of
+measurements of the projected radial distances to the cluster center
+estimate. If we assume that the radial profile follows an unknown
+probability distribution function, the set of $N_c$ measured radii is
+in fact the set $\{R_1, R_2, ..., R_{N_c}\}$ of identically
+distributed random variables, whose parent distribution is to be
+determined. Often in practice, for example in a photometric field, the
+radial distances of stars are contaminated by background stars,
+following an unknown signal-to-background ratio. Let S be the set of
+all projected radii relative to the cluster center estimate in a
+photometric field. This set includes the stars in the cluster and the
+stars in the background, without distinction between them. Each value
+can be considered as a realization of a random variable that follows
+the same underlying distribution function, with contributions from the
+cluster (i.e., the signal), and from the background. Let N be the
+number of objects in S up to a given maximum radius R$_{max}$ . The star
+cluster under study which is in the center of the field comprise a
+subset C of $N_c$ unknown stars. The number of stars up to a given
+radius from the center can be computed from the data as: $n(r) = |\{r'
+\in S / r' < r\}|$, which allows to compute the empirical cumulative
+distribution function (ECDF, $\hat{F}_R(r)$) of the random variable
+$r$.
+%
+This is an estimator of the underlying cumulative distribution
+function , defined as the probability of randomly drawing a value of
+the variable R less or equal than a given value $r$:
+\(\displaystyle   F_R(r)  =   P( {r' \in S \, / \, r' \le r} );
+\hat{F}_R(r) = n(r) / N.  \)
+%
+By the law of large numbers, the ECDF approaches the cumulative
+distribution when the sample size becomes large (Fig. 1).
+%
+The estimated cumulative distribution is related by definition to the
+probability density by:
+
+\(\displaystyle   \int_a^b \hat{f}_R(r) dr = \hat{F}_R(b) - \hat{F}_R(a) = P_R(a<r<b)  \)
+
+The ECDF(r) of all the stars in a field centered at a cluster is the
+sum of the contributions of the cluster and background ECDFs, whose
+difference as a function of $r$ needs to be inferred.   Assuming a uniform background, the background cumulative distribution can be modeled by                                      ,
+\(\displaystyle   \hat{F_R}^b(r) = f_N + \alpha \,r^2  \)
+where $f_N$ and $\alpha$ are the coefficients resulting from a least squares fit to the background, at sufficiently large distances to the cluster. The first term is due to the excess of stars with respect to the background, given by the presence of the star cluster, and is indeed an estimate of the fraction of stars in the field that belong to the cluster.   Finally, we estimate the ECDF of cluster stars radii as the difference between the full measured cumulative profile and the modeled background profile:
+%
+\(\displaystyle   \hat{F_R}^s(r) = \hat{F_R}(r) - \hat{F_R}^b(r).  \)
+%
+Since this is affected by a noise component, we expand it as a sum of
+orthogonal functions. A suitable basis is that composed by a set of
+orthogonal harmonic functions plus a linear term.  The maximum number
+of terms ($M$) is chosen so that the mean behaviour of the distribution is
+reproduced, but the high frequency component given by the finite
+sampling is filtered.   Then, the probability density distribution
+estimate is obtained by a simple differentiation:
+
+\(\displaystyle   \hat{F}_R(r) = r + \sum_{k=1}^{M} a_k sin(k \,\lambda\, r)
+\Rightarrow \)
+\(\displaystyle   \hat{f}_R(r) = 1 +  \sum_{k=1}^{M} a_k\,k\,\lambda cos(k
+\,\lambda\, r),  \)
+
+\noindent
+which gives the probability of having a star (in the observed field)
+at a distance $r$ from the cluster center.
+%
+From the previous equations, the cumulative profile of the cluster is
+estimated by \(\displaystyle   \hat{F}_R^s(r) = \hat{F}_R(r) - (f_N +
+\alpha\,r^2). \)
+%
+According to this, the probability of having a star belonging to the
+star cluster at a distance $[r, r+\delta r]$          
+from the cluster center estimate, is given by:
+% 
+\(\displaystyle   \Delta(r, r+\delta r) = \frac{\hat{F}^s_R(r+\delta r) - \hat{F}^s_R(r)} {A(r+\delta r) -A(r)}   \)
+%
+\noindent
+%
+where $A(r)$ is the area enclosed in a circle of radius $r$. The curvature of the sky is neglected since the angular coverage of the region in study is small, so the formula of the area of a circle is that of a circle in a plane. 
+%
+% This expression can be written without change as follows:
+% %
+% \(\displaystyle   \Delta(r, r+\delta r) = \frac{
+% \frac{\hat{F}^s_R(r+\delta r) - \hat{F}^s_R(r)}{\delta r} }{
+% \frac{A(r+\delta r) -A(r)} {\delta r} }.  \)
+ 
+%and then, taking the limit:
+%\(\displaystyle   \rho(r) = \lim_{\delta r \to 0} \Delta(r, r+\delta r)  \)
+ 
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=.7\textwidth]{lares-F1.eps}
+  \caption{Scheme explaining the procedure to obtain the statistical 
+     estimation of the cluster multiplicity and the projected density
+  profile.}
+  \label{fig:ab1}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                       
+
+
+\section{Estimating the statistical CMD}
+
+We construct a smooth function that is an estimate of the
+color-magnitude distribution of the stars in the star cluster.   A
+single star in the field is an outcome (radius, color, magnitude) from
+the vector random variable X=(R,C,M). The total sample of stars in the
+field is then the collection of $N$ identically distributed random
+variables X. If a star is either in the cluster or in the background,
+then the set of all stars in the sample, S, can be expressed as S = C
++ B, where C is the set of cluster stars and B is the set of
+background stars.
+%
+Let $R_{\vec{X}}$ be a region within the range of values of X, and
+\(\displaystyle   A_R=\{ \vec{x} / \vec{x} \in R_{\vec{X}} \}  \).
+The probability of finding a star in this region is given by
+%
+\mbox{
+\(\displaystyle   P ( A_R ) = \int_{R_{\vec{X}} } \hat{f}_{X}(\vec{x})
+d\vec{x}.  \) }
+%
+The probability of finding a cluster star that is not in the
+background is:
+%
+\mbox{
+\(\displaystyle   P( \{\vec{x}\in S / \vec{x} \notin B\}) =
+\int_{R_{\vec{X}} }  \) \(\displaystyle   \left( 1-f_{\vec{X}}^b
+\right) \, d\vec{x},  \) }
+%
+and the probability of finding a star that belongs to the cluster
+in a given region $R_{CM}$ of the CMD:
+%
+\mbox{
+\(\displaystyle   P \left( (c,m)\in R_{CM}^s \right) = P \left(
+(c,m)\in R_{CM} \,\wedge\, (c,m)\notin R_{CM}^b \right)  \) }
+%
+which in terms of the density funcions is equivalent to
+%
+\mbox{
+\(\displaystyle   \hat{f}_{CM}^s = \hat{f}_{CM} \left( 1-
+\hat{f}^b_{CM} \right)  \) }
+
+%%\(\displaystyle   \hat{F}_R(r) \to F_R(r) \;\mathrm{when} \; N\to\infty  \)
+%%\(\displaystyle   f_R(r) = \frac{d F_R(r)}{dr}  \)
+%%\(\displaystyle   \hat{F_R}(r) = \hat{F_R}^s(r) + \hat{F_R}^b(r)  \)
+%%\(\displaystyle   P( {r' \in S \, / \, r' \le r} ) = \hat{f}_R(r)  \)
+%%\(\displaystyle   P({r' \in C\,/\, r< r' <r+\delta r }) = \hat{f}_R(r+\delta r) - \hat{f}_R^b(r)  \)
+%%\(\displaystyle   {A(r+\delta r) -A(r)} \frac{\delta r}{\delta r}  \)
+%%\(\displaystyle   \rho(r) = \lim_{\delta r \to 0} \frac{ \frac{\hat{F}^s_R(r+\delta r) - \hat{F}^s_R(r)}{\delta r} }{ \frac{A(r+\delta r) -A(r)} {\delta r} }  \)
+%%\(\displaystyle   \rho(r) = \frac{\hat{f}_R(r) }{2 \pi r}  \)
+
+
+\section{Formal fitting of isochrones to the CMD}
+
+
+We define a parametric model in order to describe the physical
+parameters of an observed cluster. The model parameters can be fitted
+by comparing the predicted structures in the color-magnitude diagram
+density distribution to the estimated distribution resulting from the
+background subtraction procedure. The main features on the CMD can be
+described by a simple stellar population, i.e., a set of stars with a
+common age and metalicity. A simple stellar population can be
+generated from a theoretical isochrone, thus using the parameters of
+the isochrone as the model parameters. To a first approximation, a
+plausible model can be set by fixing the distance modulus, the age of
+the isochrone, the metallicity and the reddening. The distance modulus
+is an estimate of the distance to the cluster, and his impact on the
+CMD is just a vertical shift with respect to a zero-distance
+theoretical isochrone. Although the reddening also affects the
+distance determination, it is simpler to disentangle the contribution
+of the reddening and treat it separately.  Therefore, there are
+components of reddening both in color and magnitude.
+
+The goodness-of-fit between data and models is a key ingredient of the
+fitting process. Although there is not a unique way to define this
+function, it must satisfy several conditions to be a useful indicator
+of the degree to which data is expected to be a random realization of
+the model distribution, i.e., the probability of the data given the
+model.  It is worth mentioning, for example, that it must be defined
+in the interval $[0, 1]$, with greater values for model predictions
+that resemble the observables. In addition, the surface should not be
+shallow, since that would give rise to overestimated confidence
+intervals. It should also be noticed that the Likelihood function is
+different to the probability of the model given the data, which is
+formaly the posterior probability, $P (M |D; \theta)$, in the Bayes
+theorem.  The Likelihood function is usually defined, following the
+idea of a $\chi^2$ formulation, in terms of the distances of points to
+a given curve representing the model. Since we have constructed
+estimates of the multivariate density distributions, such an approach
+can not be used.  Instead, we define a goodness-of-fit measure on the
+basis on the similarities between the reduced distributions and the
+synthetic distribution of a given model. Since both are smooth
+functions normalized to the total volume under the likelihood
+hypersurface, we use the sum of the cuadratic residuals between model and observed bin
+heights as a measure of likelihood. If we assume that the measures of
+all bins are independent, then the joint probability of obtaining an
+observed matrix like the matrix resulting from the data is the product
+of all individual probabilities:
+%
+$P(data|Model) = \Pi_{i=1}^{N_{bins}} N(\mu=B_i^{obs} - B_i^{teo},
+\sigma)$,
+%
+where N is the Normal function. This value is chosen so that the
+Likelihood surface has a conspicuous peack around the best model.
+Once this function is defined, it can be used to make the fitting
+process by Monte Carlo Markov chains.
+
+
+%\begin{referencias}
+%\reference Arlt, R. \& Marechal, L. 1939, \aap, 313, 315
+%\reference Borges, J.L., Bioy Casares, A., Fernández, M., \& Dadove, S. 1934,
+%\apj, 111, 222
+%\reference Cioran, E.M. 1983, \aj, 123, 198
+%\end{referencias}
+
+\end{document}
+

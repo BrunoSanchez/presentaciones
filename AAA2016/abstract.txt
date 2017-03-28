@@ -1,0 +1,11 @@
+Presentamos una técnica de coadición y substracción óptima de imágenes astronómicas. La misma
+utiliza determinación de PSF variable en el campo de las imágenes, mediante expansión en 
+elementos base ortogonales sin asumir ningún modelo subyacente.
+
+Las operaciones entre imágenes estan implementadas en un paquete de software, que corre
+en paralelo, y es capaz de realizar substracción de imágenes con gran velocidad, para 
+la búsqueda de objetos transitorios de rápido decaimiento como flares o estallidos de corta 
+duración.
+
+Esta herramienta de tratamiento de imágenes se extiende naturalmente con un algoritmo de Machine 
+Learning para la rápida discriminación entre transitorios astrofísicos y artefactos de los datos.
